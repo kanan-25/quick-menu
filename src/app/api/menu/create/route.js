@@ -4,7 +4,6 @@ import Restaurant from '@/models/Restaurant';
 export async function POST(request) {
   try {
     const { restaurantId, name, description, items } = await request.json();
-    console.log(restaurantId, name, description, items)
     if (!restaurantId || !name || !description || !items || items.length === 0) {
       return Response.json({ message: 'All fields are required' }, { status: 400 });
     }
