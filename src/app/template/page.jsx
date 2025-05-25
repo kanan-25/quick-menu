@@ -1,46 +1,55 @@
 "use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image'; // For the logo (optional)
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 
-const menuData = {
+// This will be replaced with data from the API
+const fallbackMenuData = {
   starters: [
-    { id: 1, name: "Tomato Basil Bruschetta", description: "Toasted baguette, fresh tomatoes, basil, garlic, balsamic glaze.", price: 9.50, isVeg: true },
-    { id: 2, name: "Crispy Calamari", description: "Lightly battered and fried calamari, served with a spicy marinara.", price: 14.75, isNonVeg: true },
-    { id: 3, name: "Spinach & Artichoke Dip", description: "Creamy spinach and artichoke dip, served warm with toasted pita chips.", price: 12.00, isVeg: true },
+    { id: 1, name: "Tomato Basil Bruschetta", description: "Toasted baguette, fresh tomatoes, basil, garlic, balsamic glaze.", price: 9.50, isVegetarian: true, image: 'https://via.placeholder.com/150' },
+    { id: 2, name: "Crispy Calamari", description: "Lightly battered and fried calamari, served with a spicy marinara.", price: 14.75, image: 'https://via.placeholder.com/150' },
+    { id: 3, name: "Spinach & Artichoke Dip", description: "Creamy spinach and artichoke dip, served warm with toasted pita chips.", price: 12.00, isVegetarian: true, image: 'https://via.placeholder.com/150' },
   ],
   mainCourse: [
-    { id: 4, name: "Pan-Seared Salmon", description: "Atlantic salmon with roasted asparagus, lemon-dill sauce, and quinoa.", price: 26.99, isNonVeg: true },
-    { id: 5, name: "Mushroom Risotto", description: "Creamy Arborio rice with a medley of wild mushrooms, Parmesan cheese, and truffle oil.", price: 22.50, isVeg: true },
-    { id: 6, name: "Grilled New York Strip", description: "10oz New York strip steak, served with garlic mashed potatoes and seasonal vegetables.", price: 32.00, isNonVeg: true },
+    { id: 4, name: "Pan-Seared Salmon", description: "Atlantic salmon with roasted asparagus, lemon-dill sauce, and quinoa.", price: 26.99, image: 'https://via.placeholder.com/150' },
+    { id: 5, name: "Mushroom Risotto", description: "Creamy Arborio rice with a medley of wild mushrooms, Parmesan cheese, and truffle oil.", price: 22.50, isVegetarian: true, image: 'https://via.placeholder.com/150' },
+    { id: 6, name: "Grilled New York Strip", description: "10oz New York strip steak, served with garlic mashed potatoes and seasonal vegetables.", price: 32.00, image: 'https://via.placeholder.com/150' },
   ],
   desserts: [
-    { id: 7, name: "Decadent Chocolate Tart", description: "Rich dark chocolate tart with a hint of sea salt, raspberry coulis.", price: 11.50 },
-    { id: 8, name: "Pistachio Crème brûlée", description: "Creamy custard infused with pistachio, caramelized sugar crust.", price: 10.25, isVeg: true },
-    { id: 9, name: "Fresh Berry Pavlova", description: "Crispy meringue shell filled with whipped cream and seasonal fresh berries.", price: 12.75 },
+    { id: 7, name: "Decadent Chocolate Tart", description: "Rich dark chocolate tart with a hint of sea salt, raspberry coulis.", price: 11.50, image: 'https://via.placeholder.com/150' },
+    { id: 8, name: "Pistachio Crème brûlée", description: "Creamy custard infused with pistachio, caramelized sugar crust.", price: 10.25, isVegetarian: true, image: 'https://via.placeholder.com/150' },
+    { id: 9, name: "Fresh Berry Pavlova", description: "Crispy meringue shell filled with whipped cream and seasonal fresh berries.", price: 12.75, image: 'https://via.placeholder.com/150' },
   ],
   beverages: [
-    { id: 10, name: "Sparkling Elderflower Refresher", price: 5.50, isVeg: true },
-    { id: 11, name: "Artisanal Cold Brew", price: 6.00 },
-    { id: 12, name: "House-Made Lemonade", price: 4.75, isVeg: true },
+    { id: 10, name: "Sparkling Elderflower Refresher", price: 5.50, isVegetarian: true, image: 'https://via.placeholder.com/150' },
+    { id: 11, name: "Artisanal Cold Brew", price: 6.00, image: 'https://via.placeholder.com/150' },
+    { id: 12, name: "House-Made Lemonade", price: 4.75, isVegetarian: true, image: 'https://via.placeholder.com/150' },
   ],
 };
 
-const categoryKeys = Object.keys(menuData);
-
 const MenuItemCard = ({ item, onAddToCart }) => {
-  const renderIcon = (item) => {
-    if (item.isSpicy) {
-      return <span className="ml-1 text-red-500">🌶️</span>;
+  const renderIcons = (item) => {
+    const icons = [];
+
+    if (item.isVegetarian) {
+      icons.push(<span key="veg" className="ml-1 text-green-500" title="Vegetarian">🌿</span>);
     }
-    if (item.isVeg) {
-      return <span className="ml-1 text-green-500">🌿</span>;
+
+    if (item.isVegan) {
+      icons.push(<span key="vegan" className="ml-1 text-green-600" title="Vegan">🌱</span>);
     }
-    if (item.isNonVeg) {
-      return <span className="ml-1 text-orange-500">🍗</span>;
+
+    if (item.isGlutenFree) {
+      icons.push(<span key="gf" className="ml-1 text-amber-500" title="Gluten Free">🌾</span>);
     }
-    return null;
+
+    if (item.isPopular) {
+      icons.push(<span key="popular" className="ml-1 text-red-500" title="Popular">🔥</span>);
+    }
+
+    return icons.length > 0 ? <span className="flex items-center">{icons}</span> : null;
   };
 
   return (
@@ -54,7 +63,7 @@ const MenuItemCard = ({ item, onAddToCart }) => {
     >
       <div className="p-6 flex flex-col justify-between h-full">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-1 tracking-tight">{item.name} {renderIcon(item)}</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-1 tracking-tight flex items-center">{item.name} {renderIcons(item)}</h3>
           <p className="text-gray-700 text-sm mb-3 leading-relaxed">{item.description}</p>
           <span className="text-teal-800 font-bold text-xl">${item.price?.toFixed(2)}</span>
         </div>
@@ -70,21 +79,127 @@ const MenuItemCard = ({ item, onAddToCart }) => {
 };
 
 const DynamicMenu = () => {
-  const [activeCategory, setActiveCategory] = useState(categoryKeys[0]);
+  const searchParams = useSearchParams();
+  const restaurantId = searchParams.get('id') || '123456789'; // Default ID if none provided
+
+  const [menuData, setMenuData] = useState({});
+  const [categoryKeys, setCategoryKeys] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('');
   const [orderItems, setOrderItems] = useState([]);
   const [isOrderVisible, setIsOrderVisible] = useState(false);
   const [confirmationMessage, setConfirmationMessage] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [restaurant, setRestaurant] = useState({
+    name: 'Restaurant Menu',
+    description: 'Delicious food served fresh',
+    logo: '/Quick_menu.png' // Use local image file
+  });
+
+  // Fetch menu data from API
+  useEffect(() => {
+    const fetchMenuData = async () => {
+      try {
+        setLoading(true);
+
+        if (!restaurantId) {
+          // If no restaurant ID is provided, use fallback data
+          const formattedData = {};
+          Object.keys(fallbackMenuData).forEach(category => {
+            formattedData[category] = fallbackMenuData[category];
+          });
+
+          setMenuData(formattedData);
+          setCategoryKeys(Object.keys(formattedData));
+          setActiveCategory(Object.keys(formattedData)[0]);
+          setLoading(false);
+          return;
+        }
+
+        const response = await fetch(`/api/menu/public/${restaurantId}`);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch menu data');
+        }
+
+        const data = await response.json();
+
+        // Format the data for our template
+        const formattedData = {};
+
+        if (data.restaurant) {
+          console.log('Restaurant data from API:', data.restaurant);
+          setRestaurant(data.restaurant);
+        }
+
+        if (data.categories && data.categories.length > 0) {
+          data.categories.forEach(category => {
+            formattedData[category.name.toLowerCase()] = category.items;
+          });
+
+          setCategoryKeys(Object.keys(formattedData));
+          setActiveCategory(Object.keys(formattedData)[0]);
+          setMenuData(formattedData);
+        } else {
+          // If no categories are found, use fallback data
+          const formattedData = {};
+          Object.keys(fallbackMenuData).forEach(category => {
+            formattedData[category] = fallbackMenuData[category];
+          });
+
+          setMenuData(formattedData);
+          setCategoryKeys(Object.keys(formattedData));
+          setActiveCategory(Object.keys(formattedData)[0]);
+        }
+      } catch (error) {
+        console.error('Error fetching menu data:', error);
+        setError(error.message);
+
+        // Use fallback data on error
+        const formattedData = {};
+        Object.keys(fallbackMenuData).forEach(category => {
+          formattedData[category] = fallbackMenuData[category];
+        });
+
+        setMenuData(formattedData);
+        setCategoryKeys(Object.keys(formattedData));
+        setActiveCategory(Object.keys(formattedData)[0]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenuData();
+  }, [restaurantId]);
+
+
 
   const handleCategoryChange = (category) => {
     setActiveCategory(category);
   };
 
   const handleAddToCart = (item) => {
-    setOrderItems([...orderItems, { ...item, quantity: 1 }]);
+    // Create a unique order ID by combining the item ID with a timestamp
+    const orderItem = {
+      ...item,
+      quantity: 1,
+      orderId: `${item.id}_${Date.now()}` // Add a unique order ID
+    };
+    setOrderItems([...orderItems, orderItem]);
   };
 
   const handleRemoveFromOrder = (itemId) => {
-    const updatedOrder = orderItems.filter((item) => item.id !== itemId);
+    // Check if itemId is an orderId or a regular id
+    const isOrderId = typeof itemId === 'string' && itemId.includes('_');
+
+    const updatedOrder = orderItems.filter((item) => {
+      if (isOrderId) {
+        return item.orderId !== itemId;
+      } else {
+        return item.id !== itemId;
+      }
+    });
+
     setOrderItems(updatedOrder);
   };
 
@@ -109,16 +224,79 @@ const DynamicMenu = () => {
     setIsOrderVisible(!isOrderVisible);
   };
 
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-br from-teal-50 to-green-50 min-h-screen py-16 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+      </div>
+    );
+  }
+
+  if (error) {
+    // Use fallback data instead of showing error
+    const formattedData = {};
+    Object.keys(fallbackMenuData).forEach(category => {
+      formattedData[category] = fallbackMenuData[category];
+    });
+
+    if (!menuData || Object.keys(menuData).length === 0) {
+      setMenuData(formattedData);
+      setCategoryKeys(Object.keys(formattedData));
+      setActiveCategory(Object.keys(formattedData)[0]);
+      setError(null); // Clear the error
+
+      // Set a default restaurant with logo
+      if (!restaurant || !restaurant.name) {
+        setRestaurant({
+          name: 'Demo Restaurant',
+          description: 'A delightful dining experience',
+          logo: '/Quick_menu.png' // Use local image file
+        });
+      }
+
+      // Return loading state while we set up the fallback data
+      return (
+        <div className="bg-gradient-to-br from-teal-50 to-green-50 min-h-screen py-16 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
+        </div>
+      );
+    }
+
+    // If we already have menu data, just show a small error notification instead of full screen error
+    console.error('Error occurred but using available menu data:', error);
+  }
+
+
+
+  // Debug restaurant data before rendering
+  console.log('Restaurant data before rendering:', {
+    name: restaurant.name,
+    logo: restaurant.logo ? (typeof restaurant.logo === 'string' ? restaurant.logo.substring(0, 50) + '...' : 'non-string value') : 'none'
+  });
+
   return (
     <div className="bg-gradient-to-br from-teal-50 to-green-50 min-h-screen py-16">
       <div className="relative container mx-auto px-6 sm:px-12 lg:px-24 xl:px-32 z-10">
         {/* Restaurant Header */}
         <header className="flex justify-between items-center mb-12">
           <div className="flex items-center">
-            {/* <div className="w-20 h-20 relative rounded-full overflow-hidden mr-4 shadow-md">
-              <Image src="/logo.png" alt="Restaurant Logo" layout="fill" objectFit="contain" />
-            </div> */}
-            <h1 className="text-3xl md:text-4xl font-bold text-teal-800 tracking-tight">The Culinary Canvas</h1>
+            {/* Logo container without initial letter overlay */}
+            <div className="w-20 h-20 relative rounded-full overflow-hidden mr-4 shadow-md bg-white flex items-center justify-center">
+              {/* Use a local image file from the public directory */}
+              <img
+                src={'/Quick_menu.png'}
+                alt={`${restaurant.name} Logo`}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  console.log('Falling back to placeholder image');
+                  e.target.onerror = null; // Prevent infinite loop
+                  e.target.src = 'https://via.placeholder.com/150'; // Fallback to placeholder
+                }}
+              />
+
+              {/* No longer using data URLs or dynamic logos */}
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold text-teal-800 tracking-tight">{restaurant.name}</h1>
           </div>
           <button
             className="bg-teal-100 text-teal-800 py-2.5 px-5 rounded-md shadow-sm hover:bg-teal-200 focus:outline-none focus:ring-2 focus:ring-teal-400 font-medium"
@@ -179,14 +357,14 @@ const DynamicMenu = () => {
             ) : (
               <ul className="space-y-6 mb-8 overflow-y-auto flex-grow">
                 {orderItems.map((item) => (
-                  <li key={item.id} className="flex items-center justify-between py-2 border-b border-gray-200">
+                  <li key={item.orderId || `${item.id}_${Math.random()}`} className="flex items-center justify-between py-2 border-b border-gray-200">
                     <div>
                       <h4 className="font-semibold text-gray-800 tracking-tight">{item.name}</h4>
                       <span className="text-gray-600 text-sm">${item.price?.toFixed(2)}</span>
                     </div>
                     <button
                       className="text-red-500 hover:text-red-700 focus:outline-none"
-                      onClick={() => handleRemoveFromOrder(item.id)}
+                      onClick={() => handleRemoveFromOrder(item.orderId || item.id)}
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />

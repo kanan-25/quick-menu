@@ -22,10 +22,11 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
-        
+
         {children}
-        
+
       </body>
     </html>
   );

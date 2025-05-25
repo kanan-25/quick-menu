@@ -1,55 +1,38 @@
 import { connectToDB } from '@/lib/mongodb';
+import Menu from '@/models/Menu';
 import Restaurant from '@/models/Restaurant';
-
 export async function POST(request) {
   try {
-    const {
-      name,
-      email,
-      phone,
-      address,
-      logo,
-      description
-    } = await request.json();
-
-    // Basic validation
-    if (!name || !email || !phone || !address) {
-      return Response.json({ message: 'All required fields must be filled' }, { status: 400 });
+    const { restaurantId, name, description, items } = await request.json();
+    if (!restaurantId || !name || !description || !items || items.length === 0) {
+      return Response.json({ message: 'All fields are required' }, { status: 400 });
     }
 
     await connectToDB();
 
-    // Check for existing restaurant by email
-    const existing = await Restaurant.findOne({ email });
-    if (existing) {
-      return Response.json({ message: 'Restaurant already exists with this email' }, { status: 409 });
+    // Check if the restaurant exists
+    const existingRestaurant = await Restaurant.findById(restaurantId);
+    if (!existingRestaurant) {
+      return Response.json({ message: 'Restaurant not found' }, { status: 404 });
     }
 
-    
-    const newRestaurant = await Restaurant.create({
+    // Create a new menu
+    const newMenu = await Menu.create({
+      restaurantId,
       name,
-      email,
-      phone,
-      address,
-      logo: logo || '',
-      description: description || '',
+      description,
+      items,
     });
 
-    return Response.json({
-      message: 'Restaurant created successfully',
-      restaurant: {
-        id: newRestaurant._id,
-        name: newRestaurant.name,
-        email: newRestaurant.email,
-        phone: newRestaurant.phone,
-        address: newRestaurant.address,
-        logo: newRestaurant.logo,
-        description: newRestaurant.description,
-      }
-    }, { status: 201 });
-
+    return Response.json(
+      {
+        message: 'Menu created successfully',
+        menu: newMenu,
+      },
+      { status: 201 }
+    );
   } catch (error) {
-    console.log('Create Restaurant Error:', error);
+    console.error('Error creating menu:', error);
     return Response.json({ message: 'Server error' }, { status: 500 });
   }
 }
