@@ -1,24 +1,32 @@
-// components/Hero.js (or .jsx, .tsx)
-
 export default function Hero() {
-    return ( // <--- Added the return statement
-      <section className="flex h-screen w-full items-center justify-center bg-teal-100 text-gray-800">
-        <div className="container mx-auto max-w-lg px-4 text-center">
-        <h1 className="mb-4 text-4xl font-bold md:text-5xl">
-              Create Your Digital Menu in Minutes!
-        </h1>
-          <p className="mb-8 text-lg md:text-xl">
-            Easy online menus for restaurants, cafes, and food trucks.
+  return (
+    <section className="bg-white py-24 px-4 md:px-8 lg:px-12 xl:px-16">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+        {/* LEFT CONTENT */}
+        <div className="space-y-8">
+          <h1 className="text-5xl font-extrabold text-gray-900 leading-tight">
+            Bring Your Menu<br />
+            <span className="text-[#00bba7]">Into the Digital Age</span>
+          </h1>
+          <p className="text-lg text-gray-600 max-w-md">
+            Create sleek, QR-powered digital menus in minutes. Update your items anytime, eliminate printing costs, and deliver a contactless experience that your customers will love.
           </p>
-          <div className="flex flex-col items-center justify-center space-y-4 md:flex-row md:space-x-4 md:space-y-0">
-            <a href="/signup" className="inline-block rounded-md border border-red-500 bg-red-500 px-6 py-3 font-bold text-white transition duration-300 hover:bg-red-600 hover:border-red-600">
-              Get Started
-            </a>
-            <a href="/demo" className="inline-block rounded-md border-2 border-gray-800 bg-transparent px-6 py-3 font-bold text-gray-800 transition duration-300 hover:bg-gray-800 hover:bg-opacity-10">
-              View Demo Menu
-            </a>
+          <div className="flex gap-4 pt-2">
+            <button className="bg-[#00bba7] text-white px-6 py-3 rounded-full font-medium hover:bg-[#00a895] transition">
+              Get Started Free
+            </button>
+            <button className="border border-[#00bba7] text-[#00bba7] px-6 py-3 rounded-full font-medium hover:bg-[#f0fdfa] transition">
+              Watch Demo
+            </button>
           </div>
         </div>
-      </section>
-    ); // <--- Closed the return statement
-  }
+
+        {/* RIGHT IMAGE PLACEHOLDER */}
+        <img src="/Hero section.svg" alt="Digital Menu" className="w-full h-full object-cover rounded-xl" />
+
+
+      </div>
+    </section>
+  );
+}

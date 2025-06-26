@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation'; // Import the router hook
+import Navbar from '@/components/Navbar';
 
 const RestaurantLoginForm = () => {
   const { register, handleSubmit, formState: { errors }, setError } = useForm();
@@ -30,9 +31,30 @@ const RestaurantLoginForm = () => {
         localStorage.setItem('user', JSON.stringify(result.user));  // Save user data
         localStorage.setItem('token', result.token);  // Save JWT token
 
+        // Fetch restaurant data immediately after login
+        try {
+          const restaurantResponse = await fetch('/api/restaurant/get_restaurant', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email: result.user.email }),
+          });
+
+          const restaurantData = await restaurantResponse.json();
+
+          if (restaurantResponse.ok) {
+            // Store restaurant data separately
+            localStorage.setItem('restaurant_data', JSON.stringify(restaurantData));
+          }
+        } catch (error) {
+          console.error('Error fetching restaurant data:', error);
+          // Continue with login flow even if restaurant fetch fails
+        }
+
         // Handle successful login
         console.log('Login successful!');
-        
+
         // Redirect using Next.js router
         router.push('/restaurant');  // Redirect to dashboard
       } else {
@@ -45,8 +67,10 @@ const RestaurantLoginForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-teal-100 to-green-100 min-h-screen py-16 flex items-center justify-center">
-      <motion.div
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="bg-gradient-to-br from-teal-100 to-green-100 flex-grow py-16 flex items-center justify-center">
+        <motion.div
         className="bg-white shadow-xl rounded-xl p-10 w-full max-w-md"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -91,13 +115,14 @@ const RestaurantLoginForm = () => {
         </form>
 
         {loginError && <p className="text-red-500 mt-6 text-center font-semibold">{loginError}</p>}
-        
+
         <div className="mt-4 text-center">
-          <Link href="/template/signup" className="text-sm text-teal-600 hover:text-teal-800 font-medium">
+          <Link href="/signup" className="text-sm text-teal-600 hover:text-teal-800 font-medium">
             Don't have an account? Sign up here.
           </Link>
         </div>
       </motion.div>
+      </div>
     </div>
   );
 };

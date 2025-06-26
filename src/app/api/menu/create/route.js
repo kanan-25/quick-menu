@@ -1,22 +1,28 @@
 import { connectToDB } from '@/lib/mongodb';
 import Menu from '@/models/Menu';
 import Restaurant from '@/models/Restaurant';
+
 export async function POST(request) {
   try {
     const { restaurantId, name, description, items } = await request.json();
+
     if (!restaurantId || !name || !description || !items || items.length === 0) {
-      return Response.json({ message: 'All fields are required' }, { status: 400 });
+      return new Response(JSON.stringify({ message: 'All fields are required' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     await connectToDB();
 
-    // Check if the restaurant exists
     const existingRestaurant = await Restaurant.findById(restaurantId);
     if (!existingRestaurant) {
-      return Response.json({ message: 'Restaurant not found' }, { status: 404 });
+      return new Response(JSON.stringify({ message: 'Restaurant not found' }), {
+        status: 404,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
-    // Create a new menu
     const newMenu = await Menu.create({
       restaurantId,
       name,
@@ -24,15 +30,19 @@ export async function POST(request) {
       items,
     });
 
-    return Response.json(
-      {
-        message: 'Menu created successfully',
-        menu: newMenu,
-      },
-      { status: 201 }
-    );
+    return new Response(JSON.stringify({
+      message: 'Menu created successfully',
+      menu: newMenu,
+    }), {
+      status: 201,
+      headers: { 'Content-Type': 'application/json' },
+    });
+
   } catch (error) {
     console.error('Error creating menu:', error);
-    return Response.json({ message: 'Server error' }, { status: 500 });
+    return new Response(JSON.stringify({ message: 'Server error' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

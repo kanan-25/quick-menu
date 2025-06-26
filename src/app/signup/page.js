@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
+import Navbar from "@/components/Navbar";
 
 const RestaurantSignupForm = () => {
   const {
@@ -12,13 +13,24 @@ const RestaurantSignupForm = () => {
     formState: { errors },
   } = useForm();
 
-  const [captchaText, setCaptchaText] = useState("");
+  // Use a static initial value for SSR to avoid hydration mismatch
+  const [captchaText, setCaptchaText] = useState("CAPTCHA");
   const [submissionMessage, setSubmissionMessage] = useState("");
   const [submissionError, setSubmissionError] = useState("");
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [isClient, setIsClient] = useState(false);
 
+  // Set isClient to true when component mounts (client-side only)
   useEffect(() => {
-    generateCaptcha();
+    setIsClient(true);
   }, []);
+
+  // Generate a new captcha only after hydration is complete
+  useEffect(() => {
+    if (isClient) {
+      generateCaptcha();
+    }
+  }, [isClient]);
 
   const generateCaptcha = () => {
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -54,6 +66,7 @@ const RestaurantSignupForm = () => {
 
       if (res.ok) {
         setSubmissionMessage("🎉 Account created successfully!");
+        setSignupSuccess(true);
         reset(); // Reset the form
         generateCaptcha();
       } else {
@@ -66,8 +79,10 @@ const RestaurantSignupForm = () => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-teal-100 to-green-100 min-h-screen py-16 flex items-center justify-center">
-      <motion.div
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
+      <div className="bg-gradient-to-br from-teal-100 to-green-100 flex-grow py-16 flex items-center justify-center">
+        <motion.div
         className="bg-white shadow-xl rounded-xl p-10 w-full max-w-md"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -120,14 +135,18 @@ const RestaurantSignupForm = () => {
               />
               {errors.captcha && <p className="text-red-500 text-sm mt-1">CAPTCHA is required</p>}
             </div>
-            <div className="text-lg font-bold text-green-600 select-none">{captchaText}</div>
-            <button
-              type="button"
-              onClick={generateCaptcha}
-              className="text-sm text-gray-600 hover:text-green-700"
-            >
-              Refresh
-            </button>
+            <div className="text-lg font-bold text-green-600 select-none">
+              {isClient ? captchaText : "CAPTCHA"}
+            </div>
+            {isClient && (
+              <button
+                type="button"
+                onClick={generateCaptcha}
+                className="text-sm text-gray-600 hover:text-green-700"
+              >
+                Refresh
+              </button>
+            )}
           </div>
 
           <button
@@ -138,9 +157,29 @@ const RestaurantSignupForm = () => {
           </button>
         </form>
 
-        {submissionMessage && <p className="text-green-600 mt-6 text-center font-semibold">{submissionMessage}</p>}
+        {submissionMessage && (
+          <div className="mt-6 text-center">
+            <p className="text-green-600 font-semibold mb-4">{submissionMessage}</p>
+            {signupSuccess && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                <p className="text-gray-600 mb-4">Your account has been created successfully. You can now log in with your credentials.</p>
+                <a
+                  href="/login"
+                  className="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-teal-600 hover:bg-teal-700 transition-all duration-300 hover:shadow-lg"
+                >
+                  Go to Login
+                </a>
+              </motion.div>
+            )}
+          </div>
+        )}
         {submissionError && <p className="text-red-500 mt-6 text-center font-semibold">{submissionError}</p>}
       </motion.div>
+      </div>
     </div>
   );
 };
