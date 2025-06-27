@@ -1,7 +1,16 @@
-
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: "Create Next App",
@@ -12,11 +21,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-<<<<<<< HEAD
-        className={` antialiased`}
-=======
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
->>>>>>> 125b761306369bac5c8985605a5017fe70f0a48c
         suppressHydrationWarning
       >
 
@@ -26,4 +31,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-
