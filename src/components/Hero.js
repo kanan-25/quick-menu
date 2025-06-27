@@ -23,7 +23,7 @@ export default function Hero() {
         </div>
 
         {/* RIGHT IMAGE PLACEHOLDER */}
-        <img src="/Hero section.svg" alt="Digital Menu" className="w-full h-full object-cover rounded-xl" />
+        <img src="/HeroSection.svg" alt="Digital Menu" className="w-full h-full object-cover rounded-xl" />
 
 
       </div>
