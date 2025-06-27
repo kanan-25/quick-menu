@@ -5,13 +5,6 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams } from 'next/navigation';
 
-<<<<<<< HEAD
-// ...existing fallbackMenuData, MenuItemCard, and all DynamicMenu code from page.jsx...
-
-// The full DynamicMenu component code is moved here from page.jsx
-
-// ...existing code...
-=======
 // This will be replaced with data from the API
 const fallbackMenuData = {
   starters: [
@@ -399,4 +392,4 @@ const DynamicMenu = () => {
 };
 
 export default DynamicMenu;
->>>>>>> 125b761306369bac5c8985605a5017fe70f0a48c
+
