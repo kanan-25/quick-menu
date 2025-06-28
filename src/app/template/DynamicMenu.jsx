@@ -218,11 +218,16 @@ const DynamicMenu = () => {
     logo: '/Quick_menu.png' // Use local image file
   });
 
-  // Calculate subtotal
-  const calculateSubtotal = () => {
-    return orderItems.reduce((total, item) => total + (item.price || 0), 0);
-  };
-
+  //subtotal
+const calculateSubtotal = () => {
+  return orderItems.reduce((total, item) => {
+    const effectivePrice =
+      item.discountedPrice && item.discountedPrice < item.price
+        ? item.discountedPrice
+        : item.price || 0;
+    return total + effectivePrice;
+  }, 0);
+};
   // Fetch menu data from API
   useEffect(() => {
     const fetchMenuData = async () => {
