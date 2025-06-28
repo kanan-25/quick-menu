@@ -70,29 +70,32 @@ export async function GET(request, { params }) {
 
     // Transform the menu data for the template page
     const transformedMenu = {
-      restaurant: {
-        name: restaurantObj.name,
-        description: restaurantObj.description || '',
-        logo: 'https://via.placeholder.com/150', // Always use placeholder
-      },
-      categories: menu.categories.map(category => ({
-        id: category._id.toString(),
-        name: category.name,
-        description: category.description || '',
-        items: category.items.map(item => ({
-          id: item._id.toString(),
-          name: item.name,
-          description: item.description || '',
-          price: item.price,
-          discountedPrice: item.discountedPrice,
-          image: 'https://via.placeholder.com/150', // Always use placeholder for item images
-          isVegetarian: item.isVegetarian || false,
-          isVegan: item.isVegan || false,
-          isGlutenFree: item.isGlutenFree || false,
-          isPopular: item.isPopular || false,
-        })).sort((a, b) => a.position - b.position),
-      })).sort((a, b) => a.position - b.position),
-    };
+  restaurant: {
+    name: restaurantObj.name,
+    description: restaurantObj.description || '',
+    logo: restaurantObj.logo && restaurantObj.logo.startsWith('http') ? restaurantObj.logo : 'https://via.placeholder.com/150',
+  },
+categories: menu.categories.map(category => ({
+  id: category._id.toString(),
+  name: category.name,
+  description: category.description || '',
+  position: category.position ?? 0, // ✅ Add this line
+  items: category.items.map(item => ({
+    id: item._id.toString(),
+    name: item.name,
+    description: item.description || '',
+    price: item.price,
+    discountedPrice: item.discountedPrice,
+    image: item.image && item.image.startsWith('http') ? item.image : 'https://via.placeholder.com/150',
+    isVegetarian: item.isVegetarian || false,
+    isVegan: item.isVegan || false,
+    isGlutenFree: item.isGlutenFree || false,
+    isPopular: item.isPopular || false,
+    position: item.position ?? 0,
+  })).sort((a, b) => a.position - b.position),
+})).sort((a, b) => a.position - b.position),
+};
+
 
     return Response.json(transformedMenu);
   } catch (error) {
