@@ -50,7 +50,7 @@ const RestaurantLoginForm = () => {
         }
 
         // ✅ Redirect to create-restaurant page
-        router.push('https://quick-menu.vercel.app/restaurant/create-restaurant');
+        router.push('/restaurant/create-restaurant');
       } else {
         setLoginError(result.message || 'Login failed');
       }
