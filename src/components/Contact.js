@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { ButtonLoader } from '@/components/Loader';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -20,6 +21,8 @@ export default function Contact() {
     message: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({
@@ -28,17 +31,30 @@ export default function Contact() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission
-    setFormStatus({
-      submitted: true,
-      error: false,
-      message: 'Thank you for your message! We\'ll get back to you soon.'
-    });
+    setIsLoading(true);
 
-    // In a real application, you would send the form data to your server here
-    console.log('Form submitted:', formData);
+    // Simulate form submission with delay
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      setFormStatus({
+        submitted: true,
+        error: false,
+        message: 'Thank you for your message! We\'ll get back to you soon.'
+      });
+
+      // In a real application, you would send the form data to your server here
+      console.log('Form submitted:', formData);
+    } catch (error) {
+      setFormStatus({
+        submitted: false,
+        error: true,
+        message: 'Something went wrong. Please try again.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -307,9 +323,21 @@ export default function Contact() {
                 <div className="sm:col-span-2">
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200"
+                    disabled={isLoading}
+                    className={`w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200 ${
+                      isLoading
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : 'bg-teal-600 hover:bg-teal-700'
+                    }`}
                   >
-                    Send Message
+                    {isLoading ? (
+                      <div className="flex items-center">
+                        <ButtonLoader size="sm" color="white" />
+                        Sending Message...
+                      </div>
+                    ) : (
+                      'Send Message'
+                    )}
                   </button>
                 </div>
               </form>

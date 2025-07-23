@@ -4,31 +4,31 @@ export default function VisionMission() {
   const values = [
     {
       icon: '🛡️',
-      title: 'Simplicity',
-      description: 'We believe in making complex things easy to understand and use.',
-      color: 'from-teal-500 to-emerald-400',
-      textColor: 'text-teal-50'
+      title: 'Simplicity First',
+      description: 'We make restaurant technology simple and intuitive, so you can focus on what matters most - your customers.',
+      color: 'from-[#2B7A78] to-[#236663]',
+      textColor: 'text-white'
     },
     {
       icon: '🚀',
-      title: 'Speed',
-      description: 'We move with agility and help our users achieve their goals quickly.',
-      color: 'from-emerald-500 to-green-400',
-      textColor: 'text-emerald-50'
+      title: 'Innovation',
+      description: 'We continuously evolve our platform with cutting-edge features that keep your restaurant ahead of the curve.',
+      color: 'from-[#8F8F3C] to-[#7a7a33]',
+      textColor: 'text-white'
     },
     {
       icon: '🎯',
-      title: 'Focus on Users',
-      description: 'Our users are at the heart of everything we design and build.',
-      color: 'from-amber-500 to-yellow-400',
-      textColor: 'text-amber-50'
+      title: 'Customer Success',
+      description: 'Your success is our success. We provide tools and support that help your restaurant thrive in the digital age.',
+      color: 'from-[#F76C3C] to-[#e55a2b]',
+      textColor: 'text-white'
     },
     {
       icon: '🤝',
-      title: 'Trust & Transparency',
-      description: 'We build lasting relationships based on honesty and open communication.',
-      color: 'from-sky-500 to-blue-400',
-      textColor: 'text-sky-50'
+      title: 'Partnership',
+      description: 'We build lasting relationships with restaurants, becoming your trusted partner in digital transformation.',
+      color: 'from-[#F44336] to-[#d32f2f]',
+      textColor: 'text-white'
     }
   ];
 
@@ -39,26 +39,27 @@ export default function VisionMission() {
         <div className="mb-20 bg-white rounded-2xl shadow-xl overflow-hidden">
           <div className="grid md:grid-cols-2">
             <div className="p-8 md:p-12 flex flex-col justify-center">
-              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-teal-100 text-teal-800 mb-4">
+              <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r from-[#2B7A78]/10 to-[#8F8F3C]/10 text-[#2B7A78] mb-4">
                 Our Mission
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">
-                Simplifying Digital Menus for <span className="text-teal-600">Every Restaurant</span>
+                Revolutionizing Restaurant Operations with <span className="bg-gradient-to-r from-[#2B7A78] to-[#F76C3C] bg-clip-text text-transparent">DigiMenuCard</span>
               </h2>
               <p className="text-lg text-gray-600 leading-relaxed">
-                We're on a mission to make digital transformation accessible to all restaurants, regardless of size or technical expertise. By providing intuitive tools, we help restaurants create beautiful digital menus that enhance the dining experience.
+                We empower restaurants of all sizes to embrace digital transformation through our comprehensive platform. From digital menus and QR ordering to real-time analytics and customer engagement - we provide everything needed to thrive in the modern dining landscape.
               </p>
             </div>
-            <div className="bg-gradient-to-br from-teal-500 to-emerald-600 p-8 md:p-12 flex items-center justify-center">
+            <div className="bg-gradient-to-br from-[#F76C3C] to-[#F44336] p-8 md:p-12 flex items-center justify-center">
               <div className="text-center">
                 <div className="inline-block p-3 rounded-full bg-white/20 mb-4">
                   <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
                   </svg>
                 </div>
                 <h3 className="text-2xl font-bold text-white mb-2">Our Vision</h3>
                 <p className="text-white/90 text-lg">
-                  A world where every restaurant can easily embrace digital technology to improve their business and customer experience.
+                  To become the global leader in restaurant digitization, creating a world where every dining experience is enhanced by smart technology and seamless customer interactions.
                 </p>
               </div>
             </div>
@@ -68,9 +69,14 @@ export default function VisionMission() {
         {/* Core Values */}
         <div>
           <div className="text-center mb-12">
+            <div className="mb-4">
+              <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-[#8F8F3C]/10 to-[#F76C3C]/10 text-[#8F8F3C] text-sm font-semibold mb-4">
+                What Drives Us
+              </span>
+            </div>
             <h2 className="text-3xl font-bold text-gray-900">Our Core Values</h2>
             <p className="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">
-              These principles guide everything we do, from the solutions we build to the relationships we foster.
+              These principles guide everything we do at DigiMenuCard, from the innovative solutions we build to the lasting partnerships we create with restaurants worldwide.
             </p>
           </div>
 

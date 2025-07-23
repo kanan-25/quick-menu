@@ -6,17 +6,17 @@ export default function Hero() {
         {/* LEFT CONTENT */}
         <div className="space-y-8">
           <h1 className="text-5xl font-extrabold text-gray-900 leading-tight">
-            Bring Your Menu<br />
-            <span className="text-[#00bba7]">Into the Digital Age</span>
+            Transform Your Restaurant<br />
+            <span className="bg-gradient-to-r from-[#2B7A78] via-[#8F8F3C] to-[#F76C3C] bg-clip-text text-transparent">With DigiMenuCard</span>
           </h1>
           <p className="text-lg text-gray-600 max-w-md">
-            Create sleek, QR-powered digital menus in minutes. Update your items anytime, eliminate printing costs, and deliver a contactless experience that your customers will love.
+            Create stunning digital menus with QR codes in minutes. Real-time order tracking, seamless customer experience, and powerful restaurant management - all in one platform.
           </p>
           <div className="flex gap-4 pt-2">
-            <button className="bg-[#00bba7] text-white px-6 py-3 rounded-full font-medium hover:bg-[#00a895] transition">
+            <button className="bg-gradient-to-r from-[#2B7A78] to-[#8F8F3C] text-white px-6 py-3 rounded-full font-medium hover:from-[#236663] hover:to-[#7a7a33] transition duration-200 shadow-lg">
               Get Started Free
             </button>
-            <button className="border border-[#00bba7] text-[#00bba7] px-6 py-3 rounded-full font-medium hover:bg-[#f0fdfa] transition">
+            <button className="border-2 border-[#F76C3C] text-[#F76C3C] px-6 py-3 rounded-full font-medium hover:bg-[#F76C3C] hover:text-white transition duration-200">
               Watch Demo
             </button>
           </div>

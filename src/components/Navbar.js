@@ -12,37 +12,37 @@ export default function Navbar() {
         <div className="flex items-center pl-2 md:pl-4">
           <Link href="/" className="flex items-center">
             <img
-              src="/Quick_menu.png"
-              alt="Company Logo"
-              width={100}
-              height={100}
-              className="mr-4 h-35 w-35 object-contain"
+              src="/Logo.png"
+              alt="DigiMenuCard Logo"
+              width={200}
+              height={60}
+              className="mr-4 h-12 w-auto object-contain"
             />
           </Link>
         </div>
 
         {/* Navigation Links - Centered */}
         <nav className="flex items-center space-x-12">
-          <Link href="/" className="text-gray-600 hover:text-teal-600 transition duration-200 font-medium">
+          <Link href="/" className="text-gray-600 hover:text-[#2B7A78] transition duration-200 font-medium">
             Home
           </Link>
 
-          <Link href="/about" className="text-gray-600 hover:text-teal-600 transition duration-200 font-medium">
+          <Link href="/about" className="text-gray-600 hover:text-[#8F8F3C] transition duration-200 font-medium">
             About
           </Link>
 
-          <Link href="/contact" className="text-gray-600 hover:text-teal-600 transition duration-200 font-medium">
+          <Link href="/contact" className="text-gray-600 hover:text-[#F76C3C] transition duration-200 font-medium">
             Contact Us
           </Link>
         </nav>
 
         {/* Login and Sign Up Buttons */}
         <div className="flex items-center space-x-6">
-          <Link href="/login" className="text-gray-600 hover:text-teal-600 transition duration-200 font-medium">
+          <Link href="/login" className="text-gray-600 hover:text-[#2B7A78] transition duration-200 font-medium">
             Login
           </Link>
 
-          <Link href="/signup" className="bg-teal-500 text-white px-5 py-2 rounded-md hover:bg-teal-600 transition duration-200 font-medium">
+          <Link href="/signup" className="bg-gradient-to-r from-[#F76C3C] to-[#F44336] text-white px-5 py-2 rounded-md hover:from-[#e55a2b] hover:to-[#d32f2f] transition duration-200 font-medium shadow-lg">
             Sign Up
           </Link>
         </div>

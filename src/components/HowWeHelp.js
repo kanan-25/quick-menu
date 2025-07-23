@@ -6,28 +6,28 @@ export default function HowWeHelp() {
       title: "Instant Digital Menus",
       description: "Create beautiful, mobile-friendly menus in minutes that customers can access instantly.",
       icon: "📱",
-      color: "bg-gradient-to-br from-teal-500 to-emerald-400",
+      color: "bg-gradient-to-br from-[#2B7A78] to-[#8F8F3C]",
       delay: "0"
     },
     {
       title: "Easy Menu Editing",
       description: "Update your menu items, prices, and descriptions anytime without waiting for reprints.",
       icon: "✏️",
-      color: "bg-gradient-to-br from-emerald-500 to-green-400",
+      color: "bg-gradient-to-br from-[#8F8F3C] to-[#F76C3C]",
       delay: "100"
     },
     {
       title: "QR Code Generation",
       description: "Automatically generate QR codes for your menu that can be printed or displayed anywhere.",
       icon: "📲",
-      color: "bg-gradient-to-br from-cyan-500 to-teal-400",
+      color: "bg-gradient-to-br from-[#F76C3C] to-[#F44336]",
       delay: "200"
     },
     {
       title: "No Tech Knowledge Required",
       description: "Our intuitive interface makes it easy for anyone to create and manage digital menus.",
       icon: "🔍",
-      color: "bg-gradient-to-br from-blue-500 to-cyan-400",
+      color: "bg-gradient-to-br from-[#2B7A78] to-[#F76C3C]",
       delay: "300"
     }
   ];
@@ -36,7 +36,7 @@ export default function HowWeHelp() {
     <section className="py-24 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1 rounded-full bg-teal-100 text-teal-700 text-sm font-semibold mb-4">
+          <span className="inline-block px-4 py-1 rounded-full bg-gradient-to-r from-[#2B7A78]/10 to-[#8F8F3C]/10 text-[#2B7A78] text-sm font-semibold mb-4">
             Effortless Solutions
           </span>
           <h2 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl mb-6">

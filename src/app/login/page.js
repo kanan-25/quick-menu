@@ -6,14 +6,17 @@ import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { ButtonLoader } from '@/components/Loader';
 
 const RestaurantLoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
   const [loginError, setLoginError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const onSubmit = async (data) => {
     setLoginError('');
+    setIsLoading(true);
 
     try {
       const response = await fetch('/api/auth/login', {
@@ -57,6 +60,8 @@ const RestaurantLoginForm = () => {
     } catch (error) {
       setLoginError('An error occurred while logging in.');
       console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,9 +109,21 @@ const RestaurantLoginForm = () => {
 
             <button
               type="submit"
-              className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 shadow-md w-full"
+              disabled={isLoading}
+              className={`text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 shadow-md w-full transition-colors ${
+                isLoading
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-teal-500 hover:bg-teal-700'
+              }`}
             >
-              Log In
+              {isLoading ? (
+                <div className="flex items-center justify-center">
+                  <ButtonLoader size="sm" color="white" />
+                  Logging In...
+                </div>
+              ) : (
+                'Log In'
+              )}
             </button>
           </form>
 

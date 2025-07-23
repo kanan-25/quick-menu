@@ -8,6 +8,7 @@ import {
   QrCodeIcon,
   UserIcon,
   ClipboardDocumentListIcon,
+  ShoppingCartIcon,
   Bars3Icon,
   XMarkIcon
 } from '@heroicons/react/24/outline';
@@ -60,6 +61,7 @@ const RestaurantSidebar = () => {
 
   const navigation = [
     { name: 'Dashboard', href: '/restaurant', icon: HomeIcon },
+    { name: 'Orders', href: '/restaurant/orders', icon: ShoppingCartIcon },
     { name: 'Menu Management', href: '/restaurant/menu', icon: ClipboardDocumentListIcon },
     { name: 'Restaurant Profile', href: '/restaurant/profile', icon: UserIcon },
     { name: 'QR Code Generator', href: '/restaurant/qrcode', icon: QrCodeIcon },

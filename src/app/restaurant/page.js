@@ -16,6 +16,7 @@ import {
   BuildingStorefrontIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
+import { PageLoader } from '@/components/Loader';
 
 const RestaurantDashboard = () => {
   const router = useRouter();
@@ -214,6 +215,13 @@ const RestaurantDashboard = () => {
   // Quick action cards
   const quickActions = [
     {
+      title: 'View Orders',
+      description: 'Manage incoming orders and kitchen operations',
+      icon: ShoppingCartIcon,
+      href: '/restaurant/orders',
+      color: 'bg-green-500'
+    },
+    {
       title: 'Manage Menu',
       description: 'Add, edit or remove menu items and categories',
       icon: ClipboardDocumentListIcon,
@@ -247,11 +255,7 @@ const RestaurantDashboard = () => {
   ];
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-500"></div>
-      </div>
-    );
+    return <PageLoader message="Loading your restaurant dashboard..." />;
   }
 
   // If user hasn't created a restaurant yet, show a prompt
@@ -370,6 +374,7 @@ const RestaurantDashboard = () => {
               <div className="p-6">
                 <div className="flex items-center mb-4">
                   <div className={`p-2 rounded-lg ${
+                    action.color === 'bg-green-500' ? 'bg-green-100' :
                     action.color === 'bg-blue-500' ? 'bg-blue-100' :
                     action.color === 'bg-purple-500' ? 'bg-purple-100' :
                     action.color === 'bg-teal-500' ? 'bg-teal-100' :

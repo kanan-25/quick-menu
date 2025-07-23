@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
+import { ButtonLoader } from '@/components/Loader';
 
 const RestaurantSignupForm = () => {
   const {
@@ -19,6 +20,7 @@ const RestaurantSignupForm = () => {
   const [submissionError, setSubmissionError] = useState("");
   const [signupSuccess, setSignupSuccess] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Set isClient to true when component mounts (client-side only)
   useEffect(() => {
@@ -44,6 +46,7 @@ const RestaurantSignupForm = () => {
   const onSubmit = async (data) => {
     setSubmissionMessage("");
     setSubmissionError("");
+    setIsLoading(true);
 
     if (data.captcha !== captchaText) {
       setSubmissionError("❌ CAPTCHA verification failed.");
@@ -75,6 +78,8 @@ const RestaurantSignupForm = () => {
     } catch (error) {
       setSubmissionError("⚠️ Server error. Please try again.");
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -151,9 +156,21 @@ const RestaurantSignupForm = () => {
 
           <button
             type="submit"
-            className="bg-teal-500 hover:bg-teal-700 text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 shadow-md"
+            disabled={isLoading}
+            className={`text-white font-bold py-3 px-6 rounded-full focus:outline-none focus:ring-2 focus:ring-teal-400 shadow-md transition-colors ${
+              isLoading
+                ? 'bg-gray-400 cursor-not-allowed'
+                : 'bg-teal-500 hover:bg-teal-700'
+            }`}
           >
-            Create Account
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <ButtonLoader size="sm" color="white" />
+                Creating Account...
+              </div>
+            ) : (
+              'Create Account'
+            )}
           </button>
         </form>
 
