@@ -52,10 +52,10 @@ export default function MenuItem({ item, categoryId, onEdit, onDelete }) {
             <p className="text-sm text-gray-600">{item.description}</p>
           )}
           <div className="flex items-center mt-1">
-            <span className="text-gray-700 font-medium">${formatPrice(item.price)}</span>
+            <span className="text-gray-700 font-medium">₹{formatPrice(item.price)}</span>
             {item.discountedPrice && (
               <span className="ml-2 text-sm text-red-600 line-through">
-                ${formatPrice(item.discountedPrice)}
+                ₹{formatPrice(item.discountedPrice)}
               </span>
             )}
           </div>

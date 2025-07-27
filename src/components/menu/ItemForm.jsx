@@ -179,7 +179,7 @@ export default function ItemForm({ categoryId, item, onSave, onCancel }) {
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., 12.99"
+                placeholder="e.g., 299"
                 step="0.01"
                 min="0"
                 required
@@ -198,7 +198,7 @@ export default function ItemForm({ categoryId, item, onSave, onCancel }) {
                 value={discountedPrice}
                 onChange={(e) => setDiscountedPrice(e.target.value)}
                 className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., 9.99"
+                placeholder="e.g., 199"
                 step="0.01"
                 min="0"
               />
