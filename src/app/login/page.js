@@ -34,26 +34,29 @@ const RestaurantLoginForm = () => {
         localStorage.setItem('user', JSON.stringify(result.user));
         localStorage.setItem('token', result.token);
 
-        // Optional: Fetch restaurant data
+        // Check if user has a restaurant profile
         try {
-          const restaurantResponse = await fetch('/api/restaurant/get_restaurant', {
-            method: 'POST',
+          const profileResponse = await fetch('/api/restaurant/profile', {
             headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email: result.user.email }),
+              'Authorization': `Bearer ${result.token}`,
+              'Content-Type': 'application/json'
+            }
           });
 
-          const restaurantData = await restaurantResponse.json();
-          if (restaurantResponse.ok) {
-            localStorage.setItem('restaurant_data', JSON.stringify(restaurantData));
+          const profileData = await profileResponse.json();
+
+          if (profileData.hasRestaurant) {
+            // User has restaurant - redirect to dashboard
+            router.push('/restaurant');
+          } else {
+            // New user - redirect to profile creation
+            router.push('/restaurant/profile');
           }
         } catch (error) {
-          console.error('Error fetching restaurant data:', error);
+          console.error('Error checking profile:', error);
+          // Fallback to profile page
+          router.push('/restaurant/profile');
         }
-
-        // ✅ Redirect to create-restaurant page
-        router.push('/restaurant/create-restaurant');
       } else {
         setLoginError(result.message || 'Login failed');
       }

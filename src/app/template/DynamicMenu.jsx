@@ -374,6 +374,10 @@ const calculateTotal = () => {
   return calculateSubtotal() + calculateTax();
 };
 
+const getTotalItemCount = () => {
+  return orderItems.reduce((total, item) => total + (item.quantity || 1), 0);
+};
+
   // Load cart and customer info from localStorage on component mount
   useEffect(() => {
     try {
@@ -696,7 +700,7 @@ const calculateTotal = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 6M7 13l-1.5-6M20 13v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2-2v4m16 0H4" />
               </svg>
-              <span className="font-medium">Cart ({orderItems.length})</span>
+              <span className="font-medium">Cart ({getTotalItemCount()})</span>
               {orderItems.length > 0 && (
                 <span className="bg-teal-600 text-white text-xs px-2 py-1 rounded-full font-bold">
                   ₹{calculateTotal().toFixed(0)}
@@ -761,7 +765,9 @@ const calculateTotal = () => {
               <div className="flex justify-between items-center mb-6">
                 <div>
                   <h2 className="text-xl font-semibold text-teal-800">Your Cart</h2>
-                  <p className="text-sm text-gray-600">{orderItems.length} item{orderItems.length !== 1 ? 's' : ''}</p>
+                  <p className="text-sm text-gray-600">
+                    {getTotalItemCount()} item{getTotalItemCount() !== 1 ? 's' : ''}
+                  </p>
                 </div>
                 <div className="flex items-center space-x-2">
                   {orderItems.length > 0 && (

@@ -28,8 +28,8 @@ export async function GET() {
         }
       ],
       subtotal: 598,
-      tax: 107.64,
-      total: 705.64,
+      tax: 29.90, // 5% GST: 598 * 0.05 = 29.90
+      total: 627.90, // 598 + 29.90 = 627.90
       orderType: 'dine-in',
       specialInstructions: 'Test order',
       estimatedTime: 30,

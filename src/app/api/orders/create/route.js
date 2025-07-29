@@ -61,7 +61,7 @@ export async function POST(request) {
     
     // Calculate order totals
     const subtotal = processedItems.reduce((sum, item) => sum + item.itemTotal, 0);
-    const tax = Math.round(subtotal * 0.18 * 100) / 100; // 18% GST (adjust as needed)
+    const tax = Math.round(subtotal * 0.05 * 100) / 100; // 5% GST (matching frontend)
     const total = subtotal + tax;
     
     // Generate order number

@@ -281,7 +281,7 @@ const RestaurantDashboard = () => {
 
             <div className="flex justify-center">
               <Link
-                href="/restaurant/create-restaurant"
+                href="/restaurant/profile"
                 className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none"
               >
                 <BuildingStorefrontIcon className="h-5 w-5 mr-2" />
