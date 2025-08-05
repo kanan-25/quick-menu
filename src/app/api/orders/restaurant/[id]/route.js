@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 // GET - Fetch all orders for a restaurant
 export async function GET(request, { params }) {
   try {
-    const { id: restaurantId } = params;
+    const { id: restaurantId } = await params;
     const { searchParams } = new URL(request.url);
     
     // Query parameters

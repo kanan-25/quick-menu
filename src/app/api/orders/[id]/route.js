@@ -4,7 +4,7 @@ import Order from '@/models/Order';
 // GET - Fetch a specific order
 export async function GET(request, { params }) {
   try {
-    const { id: orderId } = params;
+    const { id: orderId } = await params;
     
     if (!orderId) {
       return Response.json({ 
@@ -44,7 +44,7 @@ export async function GET(request, { params }) {
 // PUT - Update order status
 export async function PUT(request, { params }) {
   try {
-    const { id: orderId } = params;
+    const { id: orderId } = await params;
     const updateData = await request.json();
     
     if (!orderId) {
@@ -120,7 +120,7 @@ export async function PUT(request, { params }) {
 // DELETE - Cancel an order
 export async function DELETE(request, { params }) {
   try {
-    const { id: orderId } = params;
+    const { id: orderId } = await params;
     
     if (!orderId) {
       return Response.json({ 

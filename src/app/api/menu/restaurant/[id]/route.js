@@ -5,7 +5,7 @@ import Menu from '@/models/Menu';
 export async function GET(request, { params }) {
   // Default menu to return in case of any error
   const defaultMenu = {
-    restaurantId: params?.id || '123456789',
+    restaurantId: (await params)?.id || '123456789',
     name: 'Default Menu',
     description: 'Your restaurant menu',
     categories: [],
@@ -13,7 +13,7 @@ export async function GET(request, { params }) {
   };
 
   try {
-    const { id } = params; // Restaurant ID
+    const { id } = await params; // Restaurant ID
 
     console.log('API: Fetching menu for restaurant ID:', id);
 

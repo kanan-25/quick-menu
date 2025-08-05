@@ -5,7 +5,7 @@ import Restaurant from '@/models/Restaurant';
 // GET route to fetch a restaurant's menu for public viewing
 export async function GET(request, { params }) {
   try {
-    const { id } = params; // Restaurant ID
+    const { id } = await params; // Restaurant ID
 
     if (!id) {
       return Response.json({ message: 'Restaurant ID is required' }, { status: 400 });
