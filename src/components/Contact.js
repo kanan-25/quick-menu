@@ -312,7 +312,7 @@ export default function Contact() {
                           </a>{' '}
                           and{' '}
                           <a href="/" className="font-medium text-teal-600 hover:text-teal-500">
-                            Terms of Service
+                            Terms of Services
                           </a>.
                         </p>
                       </div>
