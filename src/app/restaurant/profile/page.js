@@ -57,58 +57,23 @@ const RestaurantProfile = () => {
         return;
       }
 
-      const storedRestaurantData = localStorage.getItem('restaurant_data');
-      if (storedRestaurantData) {
-        try {
-          const restaurantData = JSON.parse(storedRestaurantData);
-          if (restaurantData && restaurantData.email === currentUserEmail) {
-            setRestaurant(restaurantData);
-            setFormData({
-              name: restaurantData.name || '',
-              email: restaurantData.email || '',
-              phone: restaurantData.phone || '',
-              address: restaurantData.address || '',
-              description: restaurantData.description || '',
-              logo: restaurantData.logo || ''
-            });
-            setLogoPreview(restaurantData.logo || '');
-            return;
-          } else {
-            localStorage.removeItem('restaurant_data');
-          }
-        } catch {
-          localStorage.removeItem('restaurant_data');
-        }
-      }
+      console.log('Fetching restaurant for email:', currentUserEmail);
 
+      // Always fetch fresh data from API
       const res = await fetch('/api/restaurant/get_restaurant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: currentUserEmail }),
       });
 
-      const mockData = {
-        _id: '123456',
-        name: 'Demo Restaurant',
-        email: currentUserEmail,
-        phone: '(123) 456-7890',
-        address: '123 Restaurant St, Foodie City',
-        description: 'A lovely restaurant serving delicious food.',
-        logo: 'https://via.placeholder.com/150',
-        updatedAt: new Date().toISOString()
-      };
+      console.log('API Response status:', res.status);
 
-      let restaurantData = mockData;
-
-      const contentType = res.headers.get('content-type');
-      if (contentType && contentType.includes('application/json')) {
-        try {
-          const data = await res.json();
-          if (res.ok && data) {
-            restaurantData = data;
-          }
-        } catch {}
+      if (!res.ok) {
+        throw new Error(`API returned ${res.status}`);
       }
+
+      const restaurantData = await res.json();
+      console.log('Restaurant data received:', restaurantData);
 
       setRestaurant(restaurantData);
       setFormData({
@@ -121,8 +86,11 @@ const RestaurantProfile = () => {
       });
       setLogoPreview(restaurantData.logo || '');
 
+      // Update localStorage with fresh data
       localStorage.setItem('restaurant_data', JSON.stringify(restaurantData));
+
     } catch (err) {
+      console.error('Error fetching restaurant:', err);
       setError(err.message);
     } finally {
       setLoading(false);

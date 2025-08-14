@@ -14,42 +14,33 @@ const QRCodeGenerator = () => {
   useEffect(() => {
     const fetchRestaurant = async () => {
       try {
-        setLoading(true);
-
-        // First try to get from restaurant_data (preferred source)
-        const storedRestaurantData = localStorage.getItem('restaurant_data');
-        if (storedRestaurantData) {
+        console.log('=== Frontend: Fetching Restaurant ===');
+        
+        // Check localStorage first
+        const storedRestaurant = localStorage.getItem('restaurant_data');
+        if (storedRestaurant) {
           try {
-            const restaurantData = JSON.parse(storedRestaurantData);
-            if (restaurantData._id && restaurantData.name) {
-              // Ensure logo is properly set
-              if (!restaurantData.logo || restaurantData.logo === '') {
-                console.log('Logo is missing in QR code page, setting default');
-                restaurantData.logo = 'https://via.placeholder.com/150';
-
-                // Update localStorage with the fixed data
-                localStorage.setItem('restaurant_data', JSON.stringify(restaurantData));
-              }
-
+            const restaurantData = JSON.parse(storedRestaurant);
+            if (restaurantData && restaurantData._id) {
+              console.log('Using cached restaurant data');
               setRestaurant(restaurantData);
-
-              // Generate the menu URL using the restaurant ID
+              
               const baseUrl = window.location.origin;
               const generatedMenuUrl = `${baseUrl}/template?id=${restaurantData._id}`;
               setMenuUrl(generatedMenuUrl);
-
+              
               setLoading(false);
               return;
             }
           } catch (parseError) {
             console.warn('Error parsing stored restaurant data:', parseError);
-            // Continue with API fetch if localStorage data is invalid
+            localStorage.removeItem('restaurant_data');
           }
         }
 
-        // Fallback to API fetch if restaurant_data is not available or invalid
+        // Get user email
         const storedUser = localStorage.getItem("user");
-        let email = "demo@example.com"; // Default email for demo
+        let email = "demo@example.com";
 
         if (storedUser) {
           try {
@@ -59,12 +50,12 @@ const QRCodeGenerator = () => {
             }
           } catch (parseError) {
             console.warn("Error parsing user data:", parseError);
-            // Continue with default email
           }
-        } else {
-          console.warn("User not found in localStorage, using demo email");
         }
 
+        console.log('Making API request with email:', email);
+
+        // Make API request
         const res = await fetch("/api/restaurant/get_restaurant", {
           method: "POST",
           headers: {
@@ -73,32 +64,43 @@ const QRCodeGenerator = () => {
           body: JSON.stringify({ email }),
         });
 
-        const data = await res.json();
+        console.log('API Response status:', res.status);
+        console.log('API Response headers:', res.headers.get('content-type'));
 
-        if (res.ok) {
-          // Ensure logo is properly set in API response
+        // Check if response is JSON
+        const contentType = res.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+          const textResponse = await res.text();
+          console.error('Non-JSON response received:', textResponse.substring(0, 200));
+          throw new Error('Server returned invalid response format');
+        }
+
+        const data = await res.json();
+        console.log('API Response data:', data);
+
+        if (res.ok && data) {
+          // Ensure logo is set
           if (!data.logo || data.logo === '') {
-            console.log('Logo is missing in API response, setting default');
             data.logo = 'https://via.placeholder.com/150';
           }
 
           setRestaurant(data);
-
-          // Save to localStorage for future use
           localStorage.setItem('restaurant_data', JSON.stringify(data));
 
-          // Generate the menu URL using the restaurant ID
+          // Generate menu URL
           const baseUrl = window.location.origin;
           const generatedMenuUrl = `${baseUrl}/template?id=${data._id}`;
           setMenuUrl(generatedMenuUrl);
         } else {
           throw new Error(data.message || "Failed to fetch restaurant");
         }
+
       } catch (err) {
-        console.error('Error in fetchRestaurant:', err);
+        console.error('=== Frontend Error ===');
+        console.error('Error:', err);
         setError(err.message);
 
-        // Create a default restaurant with logo as fallback
+        // Fallback restaurant
         const defaultRestaurant = {
           _id: '123456789',
           name: 'Demo Restaurant',
@@ -108,8 +110,6 @@ const QRCodeGenerator = () => {
         };
 
         setRestaurant(defaultRestaurant);
-
-        // Generate a menu URL even in error case
         const baseUrl = window.location.origin;
         const generatedMenuUrl = `${baseUrl}/template?id=${defaultRestaurant._id}`;
         setMenuUrl(generatedMenuUrl);

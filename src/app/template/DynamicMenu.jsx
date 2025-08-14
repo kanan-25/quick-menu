@@ -419,10 +419,18 @@ const getTotalItemCount = () => {
     const fetchMenuData = async () => {
       try {
         setLoading(true);
+        console.log('Fetching menu data for restaurant ID:', restaurantId);
+        
         const response = await fetch(`/api/menu/public/${restaurantId}`);
-        if (!response.ok) throw new Error('Failed to fetch menu data');
+        console.log('Menu API response status:', response.status);
+        
+        if (!response.ok) {
+          console.error('Menu API failed with status:', response.status);
+          // Don't throw error, continue with fallback
+        }
 
         const data = await response.json();
+        console.log('Menu API response data:', data);
 
         if (data.restaurant) setRestaurant(data.restaurant);
 
@@ -435,13 +443,14 @@ const getTotalItemCount = () => {
           setCategoryKeys(Object.keys(formattedData));
           setActiveCategory(Object.keys(formattedData)[0]);
         } else {
+          console.log('No categories found, using fallback menu');
           setMenuData(fallbackMenuData);
           setCategoryKeys(Object.keys(fallbackMenuData));
           setActiveCategory(Object.keys(fallbackMenuData)[0]);
         }
 
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching menu:', error);
         setMenuData(fallbackMenuData);
         setCategoryKeys(Object.keys(fallbackMenuData));
         setActiveCategory(Object.keys(fallbackMenuData)[0]);

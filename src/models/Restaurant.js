@@ -4,40 +4,32 @@ const RestaurantSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
   },
   email: {
     type: String,
     required: true,
     unique: true,
-    trim: true,
   },
   phone: {
     type: String,
-    required: true,
-    trim: true,
+    default: '',
   },
   address: {
     type: String,
-    required: true,
-    trim: true,
-  },
-  logo: {
-    type: String, // URL to the restaurant logo
-    required: false,
+    default: '',
   },
   description: {
-    type: String, // Short description about the restaurant
-    required: false,
+    type: String,
+    default: '',
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
+  logo: {
+    type: String,
+    default: 'https://via.placeholder.com/150',
   },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
+}, {
+  timestamps: true,
 });
 
-export default mongoose.models.Restaurant || mongoose.model('Restaurant', RestaurantSchema);
+const Restaurant = mongoose.models.Restaurant || mongoose.model('Restaurant', RestaurantSchema);
+
+export default Restaurant;

@@ -3,60 +3,69 @@ import Restaurant from '@/models/Restaurant';
 
 export async function POST(request) {
   try {
-    const { email } = await request.json();  // Get the email from the request body
+    console.log('=== Restaurant API Called ===');
+    
+    const { email } = await request.json();
+    console.log('Searching for restaurant with email:', email);
 
     if (!email) {
-      return new Response(JSON.stringify({ message: 'Email is required' }), { status: 400 });
+      return Response.json({ message: 'Email is required' }, { status: 400 });
     }
 
-    await connectToDB();  // Ensure the DB connection is made
+    await connectToDB();
+    console.log('Database connected successfully');
 
-    const user = await Restaurant.findOne({ email });  // Search for the user by their email
+    // Search for restaurant
+    let restaurant = await Restaurant.findOne({ email });
+    console.log('Database query result:', restaurant ? 'Found restaurant' : 'No restaurant found');
 
-    if (!user) {
-      // For demo purposes, return a default restaurant instead of an error
-      const defaultRestaurant = {
-        _id: '123456789',
-        name: 'Demo Restaurant',
+    if (!restaurant) {
+      console.log('Creating new restaurant for email:', email);
+      
+      const newRestaurant = new Restaurant({
+        name: 'My Restaurant',
         email: email,
-        phone: '(123) 456-7890',
-        address: '123 Restaurant St, Foodie City',
-        description: 'A lovely restaurant serving delicious food.',
-        logo: 'https://via.placeholder.com/150',
-        updatedAt: new Date().toISOString()
-      };
+        phone: '(000) 000-0000',
+        address: 'Update your address',
+        description: 'Update your restaurant description',
+        logo: 'https://via.placeholder.com/150'
+      });
 
-      console.log('User not found, returning default restaurant with logo');
-      return new Response(JSON.stringify(defaultRestaurant), { status: 200 });
-
-      // In production, you would return an error:
-      // return new Response(JSON.stringify({ message: 'User not found' }), { status: 404 });
+      try {
+        restaurant = await newRestaurant.save();
+        console.log('New restaurant created successfully:', restaurant._id);
+      } catch (saveError) {
+        console.error('Failed to save new restaurant:', saveError);
+        
+        // Return default data
+        return Response.json({
+          _id: 'temp_' + Date.now(),
+          name: 'My Restaurant',
+          email: email,
+          phone: '(000) 000-0000',
+          address: 'Update your address',
+          description: 'Update your restaurant description',
+          logo: 'https://via.placeholder.com/150',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        });
+      }
     }
 
-    // Convert to plain object
-    const userObj = user.toObject ? user.toObject() : JSON.parse(JSON.stringify(user));
+    const restaurantObj = restaurant.toObject();
+    console.log('Returning restaurant data:', {
+      id: restaurantObj._id,
+      name: restaurantObj.name,
+      email: restaurantObj.email
+    });
 
-    // ALWAYS use the placeholder logo for consistency
-    console.log('Setting fixed placeholder logo for consistency');
-    userObj.logo = 'https://via.placeholder.com/150';
+    return Response.json(restaurantObj);
 
-    // Update the restaurant in the database with the logo
-    try {
-      user.logo = userObj.logo;
-      await user.save();
-      console.log('Updated restaurant in database with fixed placeholder logo');
-    } catch (saveError) {
-      console.error('Error saving logo to database:', saveError);
-      // Continue with the response even if save fails
-    }
-
-    console.log('Final logo URL being returned:', userObj.logo);
-
-    console.log('Returning restaurant with logo:', userObj.logo ? 'yes' : 'no');
-
-    return new Response(JSON.stringify(userObj), { status: 200 });  // Return the user data with logo
   } catch (error) {
-    console.error('Database error:', error);
-    return new Response(JSON.stringify({ message: 'Error fetching user' }), { status: 500 });
+    console.error('API Error:', error);
+    return Response.json({ 
+      message: 'Internal server error', 
+      error: error.message 
+    }, { status: 500 });
   }
 }

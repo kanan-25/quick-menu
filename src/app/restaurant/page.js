@@ -70,50 +70,29 @@ const RestaurantDashboard = () => {
   ]);
 
   useEffect(() => {
-    // Check if user has created a restaurant
     const checkRestaurantExists = async () => {
       try {
-        // First check if restaurant_data exists in localStorage
-        const storedRestaurantData = localStorage.getItem('restaurant_data');
-
-        if (storedRestaurantData) {
-          try {
-            const restaurantData = JSON.parse(storedRestaurantData);
-            // If we have valid restaurant data with a name, use it
-            if (restaurantData && restaurantData.name) {
-              setRestaurantName(restaurantData.name);
-              setHasRestaurant(true);
-              return true;
-            }
-          } catch (parseError) {
-            console.warn('Error parsing stored restaurant data:', parseError);
-          }
-        }
-
-        // If no restaurant_data, check user data and try to fetch restaurant data
+        console.log('Checking restaurant existence...');
+        
+        // Get user email first
         const storedUser = localStorage.getItem('user');
-        let email = "demo@example.com"; // Default email for demo
-        let userName = "";
+        let email = "demo@example.com";
 
         if (storedUser) {
           try {
             const user = JSON.parse(storedUser);
             if (user?.email) {
               email = user.email;
-            }
-            if (user?.name) {
-              userName = user.name;
+              console.log('Using user email:', email);
             }
           } catch (parseError) {
             console.warn("Error parsing user data:", parseError);
-            // Continue with default email
           }
-        } else {
-          console.warn("User not found in localStorage, using demo email");
         }
 
-        // Try to fetch restaurant data from API
+        // Fetch restaurant data from API
         try {
+          console.log('Fetching restaurant data for email:', email);
           const res = await fetch("/api/restaurant/get_restaurant", {
             method: "POST",
             headers: {
@@ -124,26 +103,26 @@ const RestaurantDashboard = () => {
 
           if (res.ok) {
             const restaurantData = await res.json();
-            // Save to localStorage for future use
+            console.log('Restaurant data fetched:', restaurantData);
+            
+            // Save to localStorage
             localStorage.setItem('restaurant_data', JSON.stringify(restaurantData));
-            setRestaurantName(restaurantData.name);
+            
+            setRestaurantName(restaurantData.name || 'My Restaurant');
             setHasRestaurant(true);
             return true;
+          } else {
+            console.error('Failed to fetch restaurant data:', res.status);
           }
         } catch (fetchError) {
           console.error('Error fetching restaurant data:', fetchError);
         }
 
-        // Fallback to user name if API fetch fails
-        if (userName) {
-          setRestaurantName(userName);
-          return true;
-        }
-
-        // If all else fails, set a default name
+        // Fallback
         setRestaurantName("Demo Restaurant");
         setHasRestaurant(true);
         return true;
+        
       } catch (error) {
         console.error('Error checking restaurant existence:', error);
         setHasRestaurant(false);
@@ -151,19 +130,9 @@ const RestaurantDashboard = () => {
       }
     };
 
-    // Simulate loading data
     const timer = setTimeout(async () => {
-      const exists = await checkRestaurantExists();
+      await checkRestaurantExists();
       setLoading(false);
-
-      // If no restaurant exists, clear any old restaurant_data to prevent data leakage
-      if (!exists) {
-        try {
-          localStorage.removeItem('restaurant_data');
-        } catch (error) {
-          console.error('Error removing old restaurant data:', error);
-        }
-      }
     }, 1000);
 
     return () => clearTimeout(timer);
