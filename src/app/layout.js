@@ -16,7 +16,7 @@ export const metadata = {
   title: "DigiMenuCard",
   description: "Smart Digital Menu Builder",
   icons: {
-    icon: "/uploads/favicon.jpeg",    
+    icon: "/favicon.ico",    
   },
 };
 
