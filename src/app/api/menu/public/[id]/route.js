@@ -61,7 +61,7 @@ export async function GET(request, { params }) {
       restaurant: {
         name: restaurantObj.name,
         description: restaurantObj.description || '',
-        logo: restaurantObj.logo && restaurantObj.logo.startsWith('http') ? restaurantObj.logo : '/Quick_menu.png',
+        logo: restaurantObj.logo || '/Logo.png',
       },
       categories: menu.categories.map(category => ({
         id: category._id.toString(),
@@ -74,7 +74,7 @@ export async function GET(request, { params }) {
           description: item.description || '',
           price: item.price,
           discountedPrice: item.discountedPrice,
-          image: item.image && item.image.startsWith('http') ? item.image : 'https://via.placeholder.com/150',
+          image: item.image || 'https://via.placeholder.com/150',
           isVegetarian: item.isVegetarian || false,
           isVegan: item.isVegan || false,
           isGlutenFree: item.isGlutenFree || false,

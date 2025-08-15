@@ -177,49 +177,52 @@ export default function Contact() {
                 <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-6">
                   {/* First Name */}
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-900 mb-2">
                       First name
                     </label>
                     <input
                       type="text"
-                      id="firstName"
                       name="firstName"
+                      id="firstName"
                       value={formData.firstName}
                       onChange={handleChange}
+                      className="mt-1 block w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      placeholder="Enter your first name"
                       required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm transition-colors duration-200 px-4 py-3"
                     />
                   </div>
 
                   {/* Last Name */}
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-900 mb-2">
                       Last name
                     </label>
                     <input
                       type="text"
-                      id="lastName"
                       name="lastName"
+                      id="lastName"
                       value={formData.lastName}
                       onChange={handleChange}
+                      className="mt-1 block w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      placeholder="Enter your last name"
                       required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm transition-colors duration-200 px-4 py-3"
                     />
                   </div>
 
                   {/* Email */}
                   <div className="sm:col-span-2">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-900 mb-2">
                       Email
                     </label>
                     <input
                       type="email"
-                      id="email"
                       name="email"
+                      id="email"
                       value={formData.email}
                       onChange={handleChange}
+                      className="mt-1 block w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      placeholder="Enter your email address"
                       required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm transition-colors duration-200 px-4 py-3"
                     />
                   </div>
 
@@ -276,17 +279,18 @@ export default function Contact() {
 
                   {/* Message */}
                   <div className="sm:col-span-2">
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-900 mb-2">
                       Message
                     </label>
                     <textarea
-                      id="message"
                       name="message"
+                      id="message"
                       rows={4}
                       value={formData.message}
                       onChange={handleChange}
+                      className="mt-1 block w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-md shadow-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      placeholder="Tell us how we can help you..."
                       required
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 sm:text-sm transition-colors duration-200 px-4 py-3"
                     />
                   </div>
 

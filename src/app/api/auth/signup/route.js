@@ -1,5 +1,6 @@
 import { connectToDB } from '@/lib/mongodb';
 import User from '@/models/User';
+import Restaurant from '@/models/Restaurant';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
@@ -31,21 +32,20 @@ export async function POST(request) {
       password: hashedPassword,
     });
 
-    // Generate JWT token
-    const token = jwt.sign(
-      {
-        id: newUser._id,
-        email: newUser.email,
-        name: newUser.name,
-      },
-      JWT_SECRET,
-      { expiresIn: '7d' } // Token expires in 7 days
-    );
+    // Create basic restaurant profile (without complete details)
+    const newRestaurant = await Restaurant.create({
+      name: name, // Use the user's name as initial restaurant name
+      email: email,
+      phone: '',
+      address: '',
+      description: '',
+      logo: '/Quick_menu.png', // Default logo
+    });
 
+    // Don't generate JWT token - user needs to login
     return Response.json(
       {
-        message: 'User registered successfully',
-        token,
+        message: 'Account created successfully! Please login to continue.',
         user: {
           id: newUser._id,
           name: newUser.name,

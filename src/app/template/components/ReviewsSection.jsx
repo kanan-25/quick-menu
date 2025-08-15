@@ -163,7 +163,7 @@ const ReviewsSection = ({ restaurantId }) => {
                   placeholder="Your Name *"
                   value={newReview.customerName}
                   onChange={(e) => setNewReview({...newReview, customerName: e.target.value})}
-                  className="border rounded-lg px-3 py-2"
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                   required
                 />
                 <input
@@ -171,7 +171,7 @@ const ReviewsSection = ({ restaurantId }) => {
                   placeholder="Your Email (optional)"
                   value={newReview.customerEmail}
                   onChange={(e) => setNewReview({...newReview, customerEmail: e.target.value})}
-                  className="border rounded-lg px-3 py-2"
+                  className="border border-gray-300 rounded-lg px-3 py-2 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               
@@ -188,7 +188,7 @@ const ReviewsSection = ({ restaurantId }) => {
                 placeholder="Write your review here... *"
                 value={newReview.comment}
                 onChange={(e) => setNewReview({...newReview, comment: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2 h-24 mb-4"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 h-24 mb-4 text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-teal-500"
                 required
               />
 
@@ -229,13 +229,7 @@ const ReviewsSection = ({ restaurantId }) => {
                       <span className="text-sm text-gray-500">{formatDate(review.createdAt)}</span>
                     </div>
                   </div>
-                  <button
-                    onClick={() => handleDeleteReview(review._id)}
-                    className="text-red-500 hover:text-red-700 p-1"
-                    title="Delete Review"
-                  >
-                    <TrashIcon className="w-4 h-4" />
-                  </button>
+                  {/* Remove delete button from public view */}
                 </div>
                 <p className="text-gray-700">{review.comment}</p>
               </div>
@@ -248,3 +242,5 @@ const ReviewsSection = ({ restaurantId }) => {
 };
 
 export default ReviewsSection;
+
+

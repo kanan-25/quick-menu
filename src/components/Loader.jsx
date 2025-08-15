@@ -19,7 +19,7 @@ export const Loader = ({ size = 'md', color = 'primary', className = '' }) => {
 
   return (
     <div className={`inline-block animate-spin rounded-full border-2 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] ${sizeClasses[size]} ${colorClasses[color]} ${className}`}>
-      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+      <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)] text-gray-900">
         Loading...
       </span>
     </div>
@@ -27,14 +27,12 @@ export const Loader = ({ size = 'md', color = 'primary', className = '' }) => {
 };
 
 // Page Loader Component
-export const PageLoader = ({ message = 'Loading...' }) => {
+export const PageLoader = ({ message = 'Loading...', size = 'lg' }) => {
   return (
-    <div className="fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50">
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="text-center">
-        <div className="mb-4">
-          <Loader size="xl" color="primary" />
-        </div>
-        <p className="text-lg text-gray-600 font-medium">{message}</p>
+        <Loader size={size} color="primary" className="mx-auto mb-4" />
+        <p className="text-gray-900 font-medium text-lg">{message}</p>
       </div>
     </div>
   );
@@ -125,7 +123,7 @@ export const InlineLoader = ({ text = 'Loading...', color = 'primary' }) => {
   return (
     <div className="flex items-center justify-center py-4">
       <Loader size="sm" color={color} />
-      <span className="ml-2 text-sm text-gray-600">{text}</span>
+      <span className="ml-2 text-sm text-gray-700">{text}</span>
     </div>
   );
 };

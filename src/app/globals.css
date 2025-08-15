@@ -25,6 +25,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Ensure all text is readable */
+* {
+  color: inherit;
+}
+
+/* Default text colors for common elements */
+h1, h2, h3, h4, h5, h6 {
+  color: #111827 !important; /* gray-900 */
+}
+
+p, span, div {
+  color: #374151 !important; /* gray-700 */
+}
+
+/* Ensure text is visible on light backgrounds */
+.text-gray-600 {
+  color: #4B5563 !important; /* Darker gray for better visibility */
+}
+
+.text-gray-700 {
+  color: #374151 !important;
+}
+
 /* Smooth scrolling for the entire page */
 html {
   scroll-behavior: smooth;
@@ -46,4 +69,101 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #0f766e;
+}
+
+/* Global cursor styles for interactive elements */
+button, 
+a, 
+[role="button"], 
+.cursor-pointer,
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+select,
+.clickable {
+  cursor: pointer !important;
+}
+
+/* Ensure all buttons have white text */
+button {
+  color: white !important;
+}
+
+/* Specific button types with white text */
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  color: white !important;
+}
+
+/* Exception for buttons with explicit text color classes that should remain */
+button.text-gray-600,
+button.text-gray-700,
+button.text-gray-800,
+button.text-gray-900,
+button.text-black,
+a.text-gray-600,
+a.text-gray-700,
+a.text-gray-800,
+a.text-gray-900,
+a.text-black {
+  color: inherit !important;
+}
+
+button:disabled,
+input:disabled,
+select:disabled,
+textarea:disabled {
+  cursor: not-allowed !important;
+}
+
+/* Form elements text color */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="tel"],
+input[type="url"],
+input[type="search"],
+textarea,
+select {
+  color: #111827 !important; /* Ensure input text is dark */
+  background-color: #ffffff !important; /* White background */
+  border: 2px solid #d1d5db !important; /* Gray border */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: #2B7A78 !important; /* Teal border on focus */
+  box-shadow: 0 0 0 3px rgba(43, 122, 120, 0.1) !important;
+}
+
+/* Ensure placeholder text is visible */
+::placeholder {
+  color: #6b7280 !important; /* gray-500 */
+}
+
+/* Restaurant Sidebar specific styles - override global text colors */
+.bg-teal-600 a,
+.bg-teal-600 span,
+.bg-teal-600 div {
+  color: white !important;
+}
+
+.bg-teal-600 .text-white,
+.bg-teal-600 [class*="text-white"] {
+  color: white !important;
+}
+
+/* Ensure sidebar navigation links are white */
+nav a span,
+nav a svg {
+  color: white !important;
 }

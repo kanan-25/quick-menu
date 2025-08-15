@@ -170,7 +170,7 @@ const CustomerInfoForm = ({
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50"
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 bg-white rounded-md hover:bg-gray-50"
               >
                 Back to Menu
               </button>
@@ -203,32 +203,33 @@ const CustomerInfoForm = ({
 
 // Reusable Card Component
 const MenuItemCard = ({ item, onAddToCart }) => {
-  const renderIcons = (item) => {
+  const renderBadges = (item) => {
     const badges = [];
+    
     if (item.isVegetarian) {
       badges.push(
-        <span key="veg" className="bg-gradient-to-r from-green-50 to-green-100 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-200 flex items-center gap-1.5 shadow-sm">
-          <span>🌿</span> Veg
+        <span key="veg" className="bg-gradient-to-r from-green-50 to-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-green-200 flex items-center gap-1.5 shadow-sm">
+          <span>🌱</span> Vegetarian
         </span>
       );
     }
     if (item.isVegan) {
       badges.push(
-        <span key="vegan" className="bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-200 flex items-center gap-1.5 shadow-sm">
-          <span>🌱</span> Vegan
+        <span key="vegan" className="bg-gradient-to-r from-emerald-50 to-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-emerald-200 flex items-center gap-1.5 shadow-sm">
+          <span>🌿</span> Vegan
         </span>
       );
     }
     if (item.isGlutenFree) {
       badges.push(
-        <span key="gf" className="bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-amber-200 flex items-center gap-1.5 shadow-sm">
+        <span key="gf" className="bg-gradient-to-r from-amber-50 to-amber-100 text-amber-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-amber-200 flex items-center gap-1.5 shadow-sm">
           <span>🌾</span> Gluten-Free
         </span>
       );
     }
     if (item.isPopular) {
       badges.push(
-        <span key="popular" className="bg-gradient-to-r from-red-50 to-red-100 text-red-700 text-xs font-semibold px-3 py-1.5 rounded-full border border-red-200 flex items-center gap-1.5 shadow-sm">
+        <span key="popular" className="bg-gradient-to-r from-red-50 to-red-100 text-red-800 text-xs font-semibold px-3 py-1.5 rounded-full border border-red-200 flex items-center gap-1.5 shadow-sm">
           <span>🔥</span> Popular
         </span>
       );
@@ -280,7 +281,7 @@ const MenuItemCard = ({ item, onAddToCart }) => {
             </h3>
 
             {/* Dietary badges */}
-            {renderIcons(item)}
+            {renderBadges(item)}
 
             <p className="text-gray-600 text-xs sm:text-sm leading-relaxed mt-2 sm:mt-3 flex-1 line-clamp-2 sm:line-clamp-3">
               {item.description}
@@ -350,9 +351,9 @@ const DynamicMenu = () => {
     specialInstructions: ''
   });
   const [restaurant, setRestaurant] = useState({
-    name: 'DigiMenuCard Restaurant',
-    description: 'Digital dining experience made simple',
-    logo: '/Logo.png'
+    name: "Demo Restaurant",
+    description: "Digital dining experience made simple",
+    logo: "/Logo.png"
   });
 
  const calculateSubtotal = () => {
@@ -697,13 +698,25 @@ const getTotalItemCount = () => {
         <div className="relative container mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 z-10">
           <header className="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-8 space-y-4 sm:space-y-0">
             <div className="flex items-center">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden mr-3 sm:mr-4 shadow-md bg-white flex items-center justify-center">
-                <img src={'/Logo.png'} alt="DigiMenuCard Logo" className="w-full h-full object-contain" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full overflow-hidden mr-3 sm:mr-4 shadow-md bg-white flex items-center justify-center border p-2">
+                <img 
+                  src={restaurant?.logo || '/Logo.png'} 
+                  alt={`${restaurant?.name || 'Restaurant'} Logo`} 
+                  className="w-full h-full object-contain" 
+                  onError={(e) => {
+                    e.target.src = '/Logo.png';
+                  }}
+                />
               </div>
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-teal-800 leading-tight">{restaurant.name}</h1>
+              <div>
+                <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-teal-800 leading-tight">{restaurant.name}</h1>
+                {restaurant.description && (
+                  <p className="text-sm text-gray-600 mt-1">{restaurant.description}</p>
+                )}
+              </div>
             </div>
             <button
-              className="bg-teal-100 text-teal-800 py-2.5 px-4 sm:py-2 sm:px-4 rounded-lg hover:bg-teal-200 flex items-center space-x-2 shadow-sm transition-colors w-full sm:w-auto justify-center sm:justify-start"
+              className="bg-teal-100 text-teal-800 py-2.5 px-4 sm:py-2 sm:px-4 rounded-lg hover:bg-teal-200 flex items-center space-x-2 shadow-sm transition-colors w-full sm:w-auto justify-center sm:justify-start cursor-pointer"
               onClick={toggleOrderVisibility}
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -724,7 +737,7 @@ const getTotalItemCount = () => {
               {categoryKeys.map((category) => (
                 <button
                   key={category}
-                  className={`relative py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap ${
+                  className={`relative py-2.5 px-4 sm:py-3 sm:px-6 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 transform hover:scale-105 whitespace-nowrap cursor-pointer cursor-pointer ${
                     activeCategory === category
                       ? 'bg-gradient-to-r from-teal-600 to-teal-700 text-white shadow-lg shadow-teal-500/25'
                       : 'bg-gray-50 text-gray-700 hover:bg-gray-100 hover:text-teal-700'

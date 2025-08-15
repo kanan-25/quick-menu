@@ -20,51 +20,39 @@ export async function POST(request) {
     console.log('Database query result:', restaurant ? 'Found restaurant' : 'No restaurant found');
 
     if (!restaurant) {
-      console.log('Creating new restaurant for email:', email);
-      
-      const newRestaurant = new Restaurant({
+      console.log('No restaurant found, creating default restaurant');
+      // Create a default restaurant if none exists
+      restaurant = await Restaurant.create({
         name: 'My Restaurant',
         email: email,
-        phone: '(000) 000-0000',
-        address: 'Update your address',
-        description: 'Update your restaurant description',
-        logo: 'https://via.placeholder.com/150'
+        phone: '',
+        address: '',
+        description: '',
+        logo: '/Quick_menu.png'
       });
-
-      try {
-        restaurant = await newRestaurant.save();
-        console.log('New restaurant created successfully:', restaurant._id);
-      } catch (saveError) {
-        console.error('Failed to save new restaurant:', saveError);
-        
-        // Return default data
-        return Response.json({
-          _id: 'temp_' + Date.now(),
-          name: 'My Restaurant',
-          email: email,
-          phone: '(000) 000-0000',
-          address: 'Update your address',
-          description: 'Update your restaurant description',
-          logo: 'https://via.placeholder.com/150',
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString()
-        });
-      }
+      console.log('Default restaurant created:', restaurant);
     }
 
-    const restaurantObj = restaurant.toObject();
-    console.log('Returning restaurant data:', {
-      id: restaurantObj._id,
-      name: restaurantObj.name,
-      email: restaurantObj.email
-    });
+    // Convert to plain object and ensure all fields are present
+    const restaurantData = {
+      _id: restaurant._id.toString(),
+      name: restaurant.name || 'My Restaurant',
+      email: restaurant.email,
+      phone: restaurant.phone || '',
+      address: restaurant.address || '',
+      description: restaurant.description || '',
+      logo: restaurant.logo || '/Quick_menu.png',
+      createdAt: restaurant.createdAt,
+      updatedAt: restaurant.updatedAt
+    };
 
-    return Response.json(restaurantObj);
+    console.log('Returning restaurant data:', restaurantData);
+    return Response.json(restaurantData, { status: 200 });
 
   } catch (error) {
-    console.error('API Error:', error);
+    console.error('Restaurant API Error:', error);
     return Response.json({ 
-      message: 'Internal server error', 
+      message: 'Failed to fetch restaurant',
       error: error.message 
     }, { status: 500 });
   }

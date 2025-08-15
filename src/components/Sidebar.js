@@ -3,7 +3,7 @@ import Link from 'next/link';
 const Sidebar = () => {
   const navigation = [
     { name: 'Dashboard', href: '/admin' },
-    { name: 'Restaurants', href: '/admin/restaurants' }, // Make sure this is present
+    { name: 'Restaurants', href: '/admin/restaurants' },
     { name: 'Menu Templates', href: '/admin/templates' },
     { name: 'Admin Users', href: '/admin/users' },
     { name: 'Analytics', href: '/admin/analytics' },
@@ -20,7 +20,7 @@ const Sidebar = () => {
       <nav className="mt-6">
         {navigation.map((item) => (
           <div key={item.name} className="px-3 py-2 hover:bg-gray-700 transition duration-150">
-            <Link href={item.href} className="block">
+            <Link href={item.href} className="block text-white hover:text-gray-200">
               {item.name}
             </Link>
           </div>

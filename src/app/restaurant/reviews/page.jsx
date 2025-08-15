@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { TrashIcon, StarIcon } from '@heroicons/react/24/outline';
+import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import StarRating from '@/components/StarRating';
 
 const RestaurantReviews = () => {
@@ -88,56 +89,36 @@ const RestaurantReviews = () => {
         </div>
         <button
           onClick={fetchReviews}
-          className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700"
+          className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 cursor-pointer"
         >
           Refresh
         </button>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500">
           <div className="flex items-center">
-            <StarIcon className="h-8 w-8 text-blue-500" />
+            <div className="p-3 rounded-full bg-blue-100">
+              <StarIconSolid className="h-8 w-8 text-blue-500" />
+            </div>
             <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-700">Overall Rating</h3>
-              <p className="text-3xl font-bold text-blue-600">{stats.averageRating?.toFixed(1) || '0.0'}</p>
+              <h3 className="text-sm font-medium text-gray-500">Overall Rating</h3>
+              <p className="text-2xl font-bold text-blue-600">{stats.averageRating?.toFixed(1) || '0.0'}</p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-green-500">
           <div className="flex items-center">
-            <div className="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold">
-              {stats.totalReviews || 0}
+            <div className="p-3 rounded-full bg-green-100">
+              <div className="h-8 w-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                {stats.totalReviews || 0}
+              </div>
             </div>
             <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-700">Total Reviews</h3>
-              <p className="text-3xl font-bold text-green-600">{stats.totalReviews || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="flex items-center">
-            <div className="h-8 w-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold">
-              5
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-700">5-Star Reviews</h3>
-              <p className="text-3xl font-bold text-yellow-600">{stats.ratingBreakdown?.[5] || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-lg shadow-md">
-          <div className="flex items-center">
-            <div className="h-8 w-8 bg-red-500 rounded-full flex items-center justify-center text-white font-bold">
-              1
-            </div>
-            <div className="ml-4">
-              <h3 className="text-lg font-medium text-gray-700">1-Star Reviews</h3>
-              <p className="text-3xl font-bold text-red-600">{stats.ratingBreakdown?.[1] || 0}</p>
+              <h3 className="text-sm font-medium text-gray-500">Total Reviews</h3>
+              <p className="text-2xl font-bold text-green-600">{stats.totalReviews || 0}</p>
             </div>
           </div>
         </div>
@@ -145,18 +126,14 @@ const RestaurantReviews = () => {
 
       {/* Reviews List */}
       <div className="bg-white rounded-lg shadow-md">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-medium text-gray-900">All Reviews</h2>
-        </div>
-
         {reviews.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No reviews yet</p>
+            <p className="text-gray-500 text-lg">No reviews found</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-200">
             {reviews.map((review) => (
-              <div key={review._id} className="p-6">
+              <div key={review._id} className="p-6 hover:bg-gray-50">
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-2">
@@ -175,7 +152,7 @@ const RestaurantReviews = () => {
                   <div className="flex space-x-2 ml-4">
                     <button
                       onClick={() => handleDeleteReview(review._id)}
-                      className="text-red-600 hover:text-red-900 p-2 rounded-lg hover:bg-red-50"
+                      className="text-red-600 hover:text-red-900 p-2 rounded-lg hover:bg-red-50 cursor-pointer"
                       title="Delete Review"
                     >
                       <TrashIcon className="h-5 w-5" />
@@ -192,3 +169,5 @@ const RestaurantReviews = () => {
 };
 
 export default RestaurantReviews;
+
+

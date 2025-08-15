@@ -20,17 +20,14 @@ const AdminDashboard = () => {
           <h3 className="text-lg font-medium text-gray-700 mb-2">Active Menu Templates</h3>
           <p className="text-3xl font-bold text-teal-600">30</p>
         </div>
-
-        {/* Add more widgets here */}
       </div>
 
       <div className="mt-8 bg-white shadow-md rounded-lg p-6">
         <h3 className="text-lg font-medium text-gray-700 mb-4">Recent Activity</h3>
         <ul className="divide-y divide-gray-200">
-          <li className="py-3">Restaurant "Spice Route" signed up.</li>
-          <li className="py-3">Admin "John Doe" added a new menu template.</li>
-          <li className="py-3">Restaurant "Pizza Place" updated their menu.</li>
-          {/* Add more recent activity items */}
+          <li className="py-3 text-gray-700">Restaurant "Spice Route" signed up.</li>
+          <li className="py-3 text-gray-700">Admin "John Doe" added a new menu template.</li>
+          <li className="py-3 text-gray-700">Restaurant "Pizza Place" updated their menu.</li>
         </ul>
       </div>
     </div>
