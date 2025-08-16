@@ -26,19 +26,19 @@ export default function Navbar() {
 
         {/* Navigation Links - Centered */}
         <nav className="flex items-center space-x-12">
-          <Link href="/" className={`px-3 py-2 rounded-md text-white hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
+          <Link href="/" className={`px-3 py-2 rounded-md text-black hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
             pathname === '/' ? 'bg-teal-100' : ''
           }`}>
             Home
           </Link>
 
-          <Link href="/about" className={`px-3 py-2 rounded-md text-white hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
+          <Link href="/about" className={`px-3 py-2 rounded-md text-black hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
             pathname === '/about' ? 'bg-teal-100' : ''
           }`}>
             About
           </Link>
 
-          <Link href="/contact" className={`px-3 py-2 rounded-md text-white hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
+          <Link href="/contact" className={`px-3 py-2 rounded-md text-black hover:text-gray-200 transition duration-200 font-medium cursor-pointer ${
             pathname === '/contact' ? 'bg-teal-100' : ''
           }`}>
             Contact Us
