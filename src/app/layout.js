@@ -12,12 +12,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "DigiMenuCard - Digital Restaurant Menu",
-  description: "Transform your restaurant with digital menus and QR code ordering",
+  title: "DigiMenuCard",
+  description: "Smart Digital Menu Builder",
   icons: {
-    icon: '/Logo.png',
-    shortcut: '/Logo.png',
-    apple: '/Logo.png',
+    icon: "/favicon.ico",    
   },
 };
 
