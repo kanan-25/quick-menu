@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import { motion } from 'framer-motion';
+import React, { Suspense } from 'react';
 
 const LoginForm = () => {
   const router = useRouter();
@@ -172,4 +173,14 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+function LoginPageInner() {
+  return <LoginForm />;
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginPageInner />
+    </Suspense>
+  );
+}

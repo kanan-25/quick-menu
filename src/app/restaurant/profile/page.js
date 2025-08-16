@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import {
@@ -16,7 +16,8 @@ import {
   PhotoIcon
 } from '@heroicons/react/24/outline';
 
-const RestaurantProfile = () => {
+// Move all logic into this inner component
+function RestaurantProfileInner() {
   const searchParams = useSearchParams();
   const isSetupMode = searchParams.get('setup') === 'true';
   
@@ -507,6 +508,13 @@ const RestaurantProfile = () => {
       </div>
     </div>
   );
-};
+}
 
-export default RestaurantProfile;
+// Export default with Suspense boundary
+export default function RestaurantProfile() {
+  return (
+    <Suspense fallback={<div className="text-center py-10">Loading...</div>}>
+      <RestaurantProfileInner />
+    </Suspense>
+  );
+}
